@@ -50,6 +50,7 @@ env:
   WRT_BRANCH: ${{inputs.WRT_BRANCH}}
   WRT_PACKAGE: ${{inputs.WRT_PACKAGE}}
   WRT_TEST: ${{inputs.WRT_TEST}}
+  FIRMWARE_TAG: X86_64_immortalwrt
 
 jobs:
   core:
@@ -104,6 +105,7 @@ jobs:
           echo "WRT_CI=$WRT_CI" >> $GITHUB_ENV
           echo "WRT_VER=$WRT_VER" >> $GITHUB_ENV
           echo "WRT_TYPE=$WRT_TYPE" >> $GITHUB_ENV
+          echo "DATE=$(date +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
 
       - name: Clone Code
         run: |
@@ -223,7 +225,7 @@ jobs:
       - name: Release Firmware
         uses: softprops/action-gh-release@master
         with:
-          tag_name: ${{env.WRT_TARGET}}_${{env.WRT_VER}}_${{env.WRT_DATE}}
+          tag_name: R${{ env.DATE }} for ${{ env.FIRMWARE_TAG }}
           files: ./wrt/upload/*.*
           body: |
             请注意选择你需要的设备固件！
